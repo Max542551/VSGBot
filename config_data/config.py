@@ -6,6 +6,7 @@ from peewee import SqliteDatabase
 
 group_id = '-1002172947099'
 
+test_value = ""
 
 database = SqliteDatabase('database/Taxi.db')
 
