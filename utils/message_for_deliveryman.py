@@ -50,14 +50,15 @@ async def notify_delivery_drivers(order, first_address, second_address):
 
         if taxi.delivery_active and not taxi.admin_deactivated:
             if taxi.is_busy:
-                try:
-                    time_keyboard = await get_time_keyboard(order.id)
-                    message = await bot.send_message(chat_id=taxi.user_id, text=message_text,
-                                               reply_markup=time_keyboard,
-                                               parse_mode='html')
-                    sent_messages.append((taxi.user_id, message.message_id))
-                except Exception as e:
-                    print(f"⚠️ Ошибка при отправке сообщения таксисту {taxi.user_id}: {e}")
+                return
+                # try:
+                #     time_keyboard = await get_time_keyboard(order.id)
+                #     message = await bot.send_message(chat_id=taxi.user_id, text=message_text,
+                #                                reply_markup=time_keyboard,
+                #                                parse_mode='html')
+                #     sent_messages.append((taxi.user_id, message.message_id))
+                # except Exception as e:
+                #     print(f"⚠️ Ошибка при отправке сообщения таксисту {taxi.user_id}: {e}")
             else:
                 try:
                     message = await bot.send_message(chat_id=taxi.user_id, text=message_text,

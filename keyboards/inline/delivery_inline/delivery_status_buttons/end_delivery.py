@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.get_to_db import delivery_get_sent_item_by_order, get_delivery_by_id, get_order_by_id, get_taxi, get_sent_item_by_order
 from handlers.taxi_handlers import main_menu_taxi
-from keyboards.inline.delivery_inline.delivery_raiting import delivery_get_rating_keyboard
+from keyboards.inline.delivery_inline.delivery_raiting import delivery_get_rating_keyboard, delivery_rate_user_keyboard
 from keyboards.inline.orders_inline.user_order_inline.rating import get_rating_keyboard, get_user_rating_keyboard
 from loader import dp, bot
 from states.delivery_states import DeliveryStatus
@@ -69,7 +69,7 @@ async def process_end_delivery(callback_query: types.CallbackQuery, state: FSMCo
         chat_id=taxi.user_id,
         text="✅ Доставка завершена!\n\n\n"
              "🌠 Пожалуйста, оцените заказчика",
-        reply_markup=get_user_rating_keyboard(delivery.user_id, order_id)
+        reply_markup=delivery_rate_user_keyboard(delivery.user_id, order_id)
     )
 
     if sent_item:

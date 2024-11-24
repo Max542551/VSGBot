@@ -22,3 +22,9 @@ class DeliveryState(StatesGroup):
 
 class DeliveryProposePriceState(StatesGroup):
     price = State()
+
+class BanDeliveryStates(StatesGroup):
+    waiting_for_reason = State()
+
+class BanCustomerStates(StatesGroup):
+    waiting_for_reason = State()
