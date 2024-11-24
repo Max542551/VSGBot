@@ -61,7 +61,6 @@ async def process_broadcast_message(message: types.Message, state: FSMContext):
             try:
                 await bot.send_message(user_id, broadcast_message)
                 await message.answer(f"✅ Сообщения отправлено {user_id}")
-                print(f"Сообщения отправлено {user_id}")
                 await asyncio.sleep(15)  # отправляем сообщение каждому пользователю
             except Exception as e:
                 print(f'Ошибка: {e}')
@@ -69,4 +68,3 @@ async def process_broadcast_message(message: types.Message, state: FSMContext):
 
     await state.finish()  # завершаем сценарий
     await message.answer("✅ Сообщения отправлены")
-    print("✅ Сообщения отправлены")

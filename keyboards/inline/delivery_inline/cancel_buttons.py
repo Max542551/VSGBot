@@ -109,7 +109,6 @@ async def cancel_order(callback_query: types.CallbackQuery, state: FSMContext):
     delivery_delete_sent_messages(order.id)
 
     sent_item = delivery_get_sent_item_by_order(order)
-    print(sent_item)
     if sent_item:
         await bot.delete_message(chat_id=taxi_id, message_id=sent_item.text_message_id)
 

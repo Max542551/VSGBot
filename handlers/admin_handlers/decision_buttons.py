@@ -14,5 +14,4 @@ def make_registration_decision_buttons(user_id: int) -> types.InlineKeyboardMark
     inline_btn_accept = types.InlineKeyboardButton('✅ Принять Регистрацию', callback_data=f"reg_accept:{user_id}")
     inline_btn_reject = types.InlineKeyboardButton('❌ Отклонить Регистрацию', callback_data=f"jer_regtaxi:{user_id}")
     inline_kb.add(inline_btn_accept, inline_btn_reject)
-    print(user_id)
     return inline_kb

@@ -65,7 +65,14 @@ def get_order_by_user_id(user_id):
     return Order.get_or_none((Order.user_id == user_id) & (Order.status == OrderStatus.GENERATED))
 
 def get_delivery_by_user_id(user_id):
-    return Delivery.get_or_none((Delivery.user_id == user_id) & (Delivery.status == DeliveryStatus.GENERATED))
+    last_delivery = (
+        Delivery
+        .select()
+        .where((Delivery.user_id == user_id) & (Delivery.status == DeliveryStatus.GENERATED))
+        .order_by(Delivery.id.desc())
+        .get_or_none()
+    )
+    return last_delivery
 
 def get_delivery_by_id(order_id):
     try:

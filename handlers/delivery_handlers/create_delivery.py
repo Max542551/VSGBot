@@ -182,7 +182,6 @@ async def handle_specify_amount(message: types.Message, state: FSMContext):
         amount = int(message.text)
         state_data["cost"] = amount
         await state.set_data(state_data)
-        print(state_data["cost"])
 
         await bot.send_message(message.chat.id,
                                 "✍️ Желаете оставить комментарий к заказу? :",
@@ -205,7 +204,7 @@ async def handle_comment(message: types.Message, state: FSMContext):
     second_address = state_data["second_address"]
 
     await state.set_data(state_data)
-    print(state_data["comment"])
+
     # создаем заказ в базе данных и получаем его
     create_delivery_in_db(state_data)
     user_id = message.chat.id

@@ -1,3 +1,4 @@
+from ast import Del
 import asyncio
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -21,13 +22,16 @@ async def process_order_defer(callback_query: types.CallbackQuery):
     taxi_id = callback_query.from_user.id
     taxi = await get_taxi(taxi_id)
     order = get_delivery_by_id(order_id)
+    print(order_id)
+    print(order.busy_by)
 
     if order.busy_by:
-        await bot.edit_message_text(text="⛔️ Заказ уже принят другим водителем",
-                                    chat_id=callback_query.message.chat.id,
-                                    message_id=callback_query.message.message_id)
+        # await bot.edit_message_text(text="⛔️ Заказ уже принят другим водителем",
+        #                             chat_id=callback_query.message.chat.id,
+        #                             message_id=callback_query.message.message_id)
         return
 
+    # order.status = DeliveryStatus.ACCEPTED
     order.busy_by = taxi_id
     order.save()
     await bot.edit_message_text(text="✅ Доставка принята\n\n"
@@ -43,7 +47,6 @@ async def process_order_defer(callback_query: types.CallbackQuery):
     sent_messages = delivery_get_sent_messages(order_id)
     for user_id, message_id in sent_messages:
         if user_id != taxi_id:
-            print(user_id)
             await bot.delete_message(chat_id=user_id, message_id=message_id)
 
     # Обновить сохраненные сообщения, чтобы оставить только сообщение для таксиста, который отложил заказ
@@ -77,8 +80,6 @@ async def process_delivery_order_for_user(callback_query: types.CallbackQuery):
                    f"{package_price}" \
                    f"💍 <b>Содержимое посылки</b> {order.package_content}\n\n" \
                    f"💭 Комментарий к заказу: <b>{order.comment}</b>"
-    
-    print(message_text)
 
     await bot.send_message(callback_query.from_user.id, text=message_text, reply_markup=delivery_cancel_order_buttons(order_id),
                            parse_mode='html')

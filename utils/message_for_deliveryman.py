@@ -10,8 +10,6 @@ from keyboards.inline.delivery_inline.reply_accept_the_delivery import delivery_
 from loader import bot, dp
 
 async def notify_delivery_drivers(order, first_address, second_address):
-    print(order.cost)
-    print(order.comment)
     user = await get_user(order.user_id)
     cost = "Ждет предложения" if order.cost == None else f"{order.cost} руб"
     # package_payment = "Оплачена" if order.delivery_payment is "delivery_paid" else "Не оплачена"

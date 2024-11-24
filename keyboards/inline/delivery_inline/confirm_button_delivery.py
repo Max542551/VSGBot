@@ -11,7 +11,6 @@ from states.delivery_states import DeliveryStatus
 from states.order_states import OrderStatus
 
 def delivery_send_confirmation_buttons(taxi_id, order_id, price):
-    print("тту блыо")
     markup = InlineKeyboardMarkup(row_width=2)
     item1 = InlineKeyboardButton("✅ Подтвердить", callback_data=f'delivery_confirm_{order_id}_{taxi_id}_{price}')
     item2 = InlineKeyboardButton("❌ Отказаться", callback_data=f'delivery_decline_{order_id}_{taxi_id}')
