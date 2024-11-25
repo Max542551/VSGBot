@@ -26,8 +26,11 @@ async def order_request(call: types.CallbackQuery, state: FSMContext):
     keyboard.insert(InlineKeyboardButton("✅ Заказать доставку", callback_data="delivery_confirm"))
     keyboard.insert(InlineKeyboardButton("❌ Отменить", callback_data="delivery_cancel"))
 
+    count_deliveries = get_free_deliveries_count()
+    message_text = f"<b>ВАШ ЗАКАЗ ПОЛУЧАТ {count_deliveries} ВОДИТЕЛЕЙ</b>\n\n" \
+
     await call.message.answer(
-        "⚠️ Вы создаете доставку на определенную дату и время. После принятия вашего заказа, обязательно свяжитесь с водителем по телефону и убедитесь в его готовности выполнения заказа. Администрация приложения не несёт ответственности за выполнение заказов. Ответственными за выполнение заказа являетесь только Вы как пассажир и водитель.",
+        f"<b>ВАШ ЗАКАЗ ПОЛУЧАТ {count_deliveries} ВОДИТЕЛЕЙ</b>\n\n⚠️ Вы создаете доставку на определенную дату и время. После принятия вашего заказа, обязательно свяжитесь с водителем по телефону и убедитесь в его готовности выполнения заказа. Администрация приложения не несёт ответственности за выполнение заказов. Ответственными за выполнение заказа являетесь только Вы как пассажир и водитель.",
         reply_markup=keyboard, parse_mode='html')
     
 @dp.callback_query_handler(lambda call: call.data == 'delivery_confirm', state="*")
@@ -142,54 +145,56 @@ async def handle_payment(call: types.CallbackQuery, state: FSMContext):
 
     state_data = await state.get_data()
     state_data["payment_method"] = call.data
+    state_data["cost"] = None
     await state.set_data(state_data)
 
     await bot.delete_message(call.message.chat.id, call.message.message_id)
-    await bot.send_message(call.message.chat.id, "💰 Какая цена Вас интересует?",
-                           reply_markup=cost_keyboard())
-    await DeliveryState.COST.set()
+    await bot.send_message(call.message.chat.id,
+                            "✍️ Желаете оставить комментарий к заказу? :",
+                            reply_markup=comment_keyboard())
+    await DeliveryState.COMMENT.set()
 
-@dp.callback_query_handler(state=DeliveryState.COST, text=["specify_amount", "request_offers"])
-async def handle_cost(call: types.CallbackQuery, state: FSMContext):
-    if call.message.text.startswith('🏠 Главное меню'):
-        await start(call.message, state)
-        return
+# @dp.callback_query_handler(state=DeliveryState.COST, text=["specify_amount", "request_offers"])
+# async def handle_cost(call: types.CallbackQuery, state: FSMContext):
+#     if call.message.text.startswith('🏠 Главное меню'):
+#         await start(call.message, state)
+#         return
 
-    state_data = await state.get_data()
-    if call.data == "specify_amount":
-        await bot.edit_message_text("💰 Введите желаемую сумму доставки (только цифры!):",
-                                    chat_id=call.message.chat.id,
-                                    message_id=call.message.message_id)
-        await DeliveryState.SPECIFY_AMOUNT.set()
-    else:
-        state_data["cost"] = None
-        await state.set_data(state_data)
+#     state_data = await state.get_data()
+#     if call.data == "specify_amount":
+#         await bot.edit_message_text("💰 Введите желаемую сумму доставки (только цифры!):",
+#                                     chat_id=call.message.chat.id,
+#                                     message_id=call.message.message_id)
+#         await DeliveryState.SPECIFY_AMOUNT.set()
+#     else:
+#         state_data["cost"] = None
+#         await state.set_data(state_data)
 
-        await bot.delete_message(call.message.chat.id, call.message.message_id)
-        await bot.send_message(call.message.chat.id,
-                                "✍️ Желаете оставить комментарий к заказу? :",
-                                reply_markup=comment_keyboard())
-        await DeliveryState.COMMENT.set()
+#         await bot.delete_message(call.message.chat.id, call.message.message_id)
+#         await bot.send_message(call.message.chat.id,
+#                                 "✍️ Желаете оставить комментарий к заказу? :",
+#                                 reply_markup=comment_keyboard())
+#         await DeliveryState.COMMENT.set()
 
-@dp.message_handler(state=DeliveryState.SPECIFY_AMOUNT, content_types=['text'])
-async def handle_specify_amount(message: types.Message, state: FSMContext):
-    if message.text.startswith('🏠 Главное меню'):
-        await start(message, state)
-        return
+# @dp.message_handler(state=DeliveryState.SPECIFY_AMOUNT, content_types=['text'])
+# async def handle_specify_amount(message: types.Message, state: FSMContext):
+#     if message.text.startswith('🏠 Главное меню'):
+#         await start(message, state)
+#         return
 
-    state_data = await state.get_data()
-    try:
-        amount = int(message.text)
-        state_data["cost"] = amount
-        await state.set_data(state_data)
+#     state_data = await state.get_data()
+#     try:
+#         amount = int(message.text)
+#         state_data["cost"] = amount
+#         await state.set_data(state_data)
 
-        await bot.send_message(message.chat.id,
-                                "✍️ Желаете оставить комментарий к заказу? :",
-                                reply_markup=comment_keyboard())
+#         await bot.send_message(message.chat.id,
+#                                 "✍️ Желаете оставить комментарий к заказу? :",
+#                                 reply_markup=comment_keyboard())
 
-        await DeliveryState.COMMENT.set()
-    except ValueError:
-        await bot.send_message(message.chat.id, "⚠️ Введите корректную сумму.")
+#         await DeliveryState.COMMENT.set()
+#     except ValueError:
+#         await bot.send_message(message.chat.id, "⚠️ Введите корректную сумму.")
 
 
 @dp.message_handler(state=DeliveryState.COMMENT)
@@ -212,9 +217,7 @@ async def handle_comment(message: types.Message, state: FSMContext):
     cancel_order = delivery_cancel_order_buttons(order.id)
 
     if order: 
-        count_deliveries = get_free_deliveries_count()
-        message_text = f"<b>ВАШ ЗАКАЗ ПОЛУЧАТ {count_deliveries} ВОДИТЕЛЕЙ</b>\n\n" \
-            f"⚠️После принятия вашего заказа, обязательно свяжитесь с водителем по телефону и убедитесь в его готовности выполнения заказа.\n\n" \
+        message_text = f"⚠️После принятия вашего заказа, обязательно свяжитесь с водителем по телефону и убедитесь в его готовности выполнения заказа.\n\n" \
             f"Администрация приложения не несёт ответственности за выполнение заказов.\n\n" \
             f"Ответственными за выполнение заказа являетесь только Вы как заказчик и водитель."
         await bot.send_message(message.chat.id, message_text,
