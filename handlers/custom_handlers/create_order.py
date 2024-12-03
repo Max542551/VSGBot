@@ -36,7 +36,7 @@ async def deferred_order_request(call: types.CallbackQuery, state: FSMContext):
 async def confirm_deferred_order(call: types.CallbackQuery, state: FSMContext):
     await bot.edit_message_text(chat_id=call.message.chat.id,
                                 message_id=call.message.message_id,
-                                text="📍 Откуда Вас забрать позже, и во сколько?\n\n🔅 <b>Введите адрес отправления и время (г.Меленки ул. Мира д.1 подъезд 2   01.01.2024 в 10.30):</b>",
+                                text="📍 Откуда Вас забрать позже, и во сколько?\n\n🔅 <b>Введите адрес отправления и время (г.Меленки ул. Мира д.1 подъезд 2   01.01.2025 в 10.30):</b>",
                                 parse_mode='html')
     await TaxiOrderState.FIRST_LOCATION.set()
 

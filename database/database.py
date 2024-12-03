@@ -25,7 +25,7 @@ class Taxi(BaseModel):
     user_id = IntegerField(unique=True)
     name = CharField()
     phone = CharField()
-    balance = IntegerField(default=10000)
+    balance = IntegerField(default=100)
     car = CharField()
     color_car = CharField()
     registration_number = CharField()

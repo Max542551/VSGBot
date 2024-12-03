@@ -63,8 +63,8 @@ async def process_deferred_order(callback_query: types.CallbackQuery):
     cost = order.cost
 
     message_text = f"❗️<b>Отложенный заказ</b>\n\n\n" \
-                   f"🅰️ <b>Адрес отправления:</b> {order.first_address}\n\n" \
-                   f"🅱️ <b>Адрес прибытия:</b> {order.second_address}\n\n\n" \
+                   f"🟢️ <b>Адрес отправления:</b> {order.first_address}\n\n" \
+                   f"🔴 <b>Адрес прибытия:</b> {order.second_address}\n\n\n" \
                    f"🙋‍♂️ <b>Имя клиента:</b> {user.name}\n\n" \
                    f"📱 <b>Номер телефона клиента:</b> {user.phone}\n\n\n" \
                    f"💰 <b>Стоимость:</b> {cost} руб\n\n" \

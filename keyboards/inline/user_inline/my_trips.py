@@ -36,6 +36,8 @@ async def order_info(callback_query: types.CallbackQuery):
         Информация о заказе №{order.id}:
         Таксист: {taxi.name if taxi else 'Не определен'}
         Номер водителя: {taxi.phone if taxi else 'Не определен'}
+        Адрес отправление {order.first_address}
+        Адрес назначения {order.second_address}
         Статус: {"Выполнен" if order.status == OrderStatus.COMPLETED else "Не выполнен"}
         Стоимость: {order.cost}
         Оценка: {order.rating}

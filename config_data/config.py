@@ -4,7 +4,7 @@ from geopy import Photon
 from geopy.adapters import AioHTTPAdapter
 from peewee import SqliteDatabase
 
-group_id = '-1002172947099'
+group_id = '-1002480603542'
 
 test_value = ""
 

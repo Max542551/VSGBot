@@ -14,7 +14,7 @@ async def notify_taxi_drivers(order, first_address, second_address):
     user = await get_user(order.user_id)
     cost = "Ждет предложения" if order.cost is None else f"{order.cost} руб"
     rating_pass = round(user.rating, 2) if user.rating else "Еще нет рейтинга"
-    message_text = f"❗️<b>Новый заказ</b> #{order.id}\n\n\n" \
+    message_text = f"❗️<b>Новый заказ</b>❗️ #{order.id}\n\n\n" \
                    f"🙋‍♂️ <b>Имя пассажира:</b> {user.name}\n\n" \
                    f"👥️ <b>Количество пассажиров:</b> {order.count_passanger}\n\n" \
                    f"📈 <b>Рейтинг пассажира:</b> {rating_pass}\n\n" \

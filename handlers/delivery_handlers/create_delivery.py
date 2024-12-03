@@ -37,7 +37,7 @@ async def order_request(call: types.CallbackQuery, state: FSMContext):
 async def confirm_order(call: types.CallbackQuery, state: FSMContext):
     await bot.edit_message_text(chat_id=call.message.chat.id,
                                 message_id=call.message.message_id,
-                                text="📍 Откуда доставить, и во сколько?\n\n🔅 <b>Введите адрес доставки и время (г.Меленки ул. Мира д.1 подъезд 2   01.01.2024 в 10.30):</b>",
+                                text="📍 Откуда доставить, и во сколько?\n\n🔅 <b>Введите адрес доставки и время (г.Меленки ул. Мира д.1 подъезд 2   01.01.2025 в 10.30):</b>",
                                 parse_mode='html')
     await DeliveryState.FIRST_LOCATION.set()
 
@@ -95,7 +95,7 @@ async def handle_cost(message: types.Message, state: FSMContext):
 
     keyboard = InlineKeyboardMarkup(row_width=2)
     keyboard.insert(InlineKeyboardButton("✅ Посылка оплачена", callback_data="delivery_paid"))
-    keyboard.insert(InlineKeyboardButton("Посылку необходимо оплатить", callback_data="delivery_unpaid"))
+    keyboard.insert(InlineKeyboardButton("Нужно оплатить", callback_data="delivery_unpaid"))
 
     state_data = await state.get_data()
     state_data["package_content"] = message.text
@@ -110,7 +110,7 @@ async def paid_delivery(call: types.CallbackQuery, state: FSMContext):
 
     await bot.edit_message_text(chat_id=call.message.chat.id,
                                 message_id=call.message.message_id,
-                                text="Способ олпаты",
+                                text="Способ оплаты доставки",
                                 parse_mode='html',
                                 reply_markup=payment_keyboard())
     await DeliveryState.PAYMENT_METHOD.set()
@@ -122,7 +122,7 @@ async def unpaid_delivery(call: types.CallbackQuery, state: FSMContext):
     await state.set_data(state_data)
 
     await bot.edit_message_text(chat_id=call.message.chat.id,
-                                message_id=call.message.message_id, text="Сколько нужно заплатить?")
+                                message_id=call.message.message_id, text="Сколько нужно заплатить за посылку?")
     await DeliveryState.HOW_MUCH_PAY.set()
 
 @dp.message_handler(state=DeliveryState.HOW_MUCH_PAY)
@@ -134,7 +134,7 @@ async def handle_amount_pay(message: types.CallbackQuery, state: FSMContext):
     state_data = await state.get_data()
     state_data["package_price"] = message.text
     await state.set_data(state_data)
-    await bot.send_message(message.chat.id, "Способ олпаты", reply_markup=payment_keyboard())
+    await bot.send_message(message.chat.id, "Способ оплаты доставки", reply_markup=payment_keyboard())
     await DeliveryState.PAYMENT_METHOD.set()
 
 @dp.callback_query_handler(state=DeliveryState.PAYMENT_METHOD, text=["Наличные", "Перевод"])
@@ -150,7 +150,7 @@ async def handle_payment(call: types.CallbackQuery, state: FSMContext):
 
     await bot.delete_message(call.message.chat.id, call.message.message_id)
     await bot.send_message(call.message.chat.id,
-                            "✍️ Желаете оставить комментарий к заказу? :",
+                            "✍️ Желаете оставить комментарий к заказу? Максимально подробно опишите детали доставки, пожелания и уточнения:",
                             reply_markup=comment_keyboard())
     await DeliveryState.COMMENT.set()
 
@@ -223,7 +223,7 @@ async def handle_comment(message: types.Message, state: FSMContext):
         await bot.send_message(message.chat.id, message_text,
                                reply_markup=get_main_menu_keyboard(), parse_mode="html")
         time.sleep(2)
-        await message.answer("👀 Ищу для вас подходящего заказчика ", reply_markup=cancel_order)
+        await message.answer("👀 Ищу для вас подходящего доставщика ", reply_markup=cancel_order)
 
         await message_for_deliveryman.notify_delivery_drivers(order, first_address, second_address)
 

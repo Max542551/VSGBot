@@ -15,7 +15,7 @@ async def notify_delivery_drivers(order, first_address, second_address):
     # package_payment = "Оплачена" if order.delivery_payment is "delivery_paid" else "Не оплачена"
     rating_pass = round(user.rating, 2) if user.rating else "Еще нет рейтинга"
     package_price = f"💰 <b>Сколько стоит посылка:</b> {order.package_price}\n\n" if order.package_price else ""
-    message_text = f"❗️<b>Новый заказ</b> #{order.id}\n\n\n" \
+    message_text = f"<b>ЗАКАЗ НА ДОСТАВКУ</b>❗️❗️❗️ #{order.id}\n\n\n" \
                    f"📈 <b>Рейтинг заказчика:</b> {rating_pass}\n\n" \
                    f"📱 <b>Номер телефона клиента:</b> {'+' + user.phone}\n\n\n" \
                    f"🟢️ <b>Откуда:</b> {first_address}\n\n" \

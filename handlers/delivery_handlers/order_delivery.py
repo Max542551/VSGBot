@@ -156,8 +156,7 @@ async def process_delivery_acceptance(callback_query: types.CallbackQuery, state
 
     await bot.send_message(
         chat_id=order.user_id,
-        text=f"🥳 Доставщик найден!\n\n"
-                "🚕 Доставщик выехал\n\n"
+        text=f"🚕 Доставщик выехал\n\n"
                 "Нажмите кнопку 🏠 Главное меню чтобы посмотреть информацию",
         reply_markup=reply_menu_user.get_main_menu_keyboard(), parse_mode='html')
 

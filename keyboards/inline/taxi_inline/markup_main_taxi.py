@@ -8,7 +8,7 @@ def markup_taxi(taxi):
 
     markup_taxi = InlineKeyboardMarkup(row_width=1)
     item1 = InlineKeyboardButton('🙋‍♂️ Стать пассажиром', callback_data='switch_to_passenger')
-    #item2 = InlineKeyboardButton('💵 Пополнить баланс', callback_data='top_up')
+    item2 = InlineKeyboardButton('💵 Пополнить баланс', callback_data='top_up')
     item3 = InlineKeyboardButton('💰 Стоимость поездок', callback_data='price')
     item4 = InlineKeyboardButton('👥 Поддержка', callback_data='support')
     item6 = InlineKeyboardButton('👁️ Наблюдать' if not taxi_watching else '👁️ Прекратить наблюдение',
@@ -17,6 +17,6 @@ def markup_taxi(taxi):
     item7 = InlineKeyboardButton("🔄 Сбросить сумму заказов за день", callback_data="reset_daily_order_sum")
     item5 = InlineKeyboardButton('🔴 Завершить смену' if taxi_shift else '🟢 Начать смену', callback_data='change_shift')
 
-    markup_taxi.add(item1, item3, item4, item6, item8, item7, item5)
+    markup_taxi.add(item1, item2, item3, item4, item6, item8, item7, item5)
 
     return markup_taxi

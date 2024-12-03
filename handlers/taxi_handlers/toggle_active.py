@@ -40,7 +40,7 @@ async def process_toggle_active_callback(callback_query: types.CallbackQuery):
                 InlineKeyboardButton("✅ Подтвердить", callback_data='start_shift'),
                 InlineKeyboardButton("❌ Отклонить", callback_data='secline_start_shift')
             )
-            await bot.edit_message_text(text="❗️Начинаем работать?",
+            await bot.edit_message_text(text="❗️Начинаем работать? Будет списана комиссия 30 руб.",
                                         chat_id=callback_query.from_user.id,
                                         message_id=callback_query.message.message_id,
                                         reply_markup=markup)
@@ -54,7 +54,7 @@ async def process_start_shift_confirmation(callback_query: types.CallbackQuery):
     user_id = callback_query.from_user.id
     taxi = await get_taxi(user_id)
 
-    commission = 0
+    commission = 30
 
     if taxi.balance <= 0 or taxi.balance < commission:
         await bot.answer_callback_query(callback_query.id, show_alert=True,

@@ -96,7 +96,7 @@ async def main_menu_taxi(message: types.Message):
                                 f"Удачи сегодня в работе! 🤗\n\n\n"
                                 f"📋 Ваша личная карточка:\n\n\n"
                                 f"📈 <b>Ваш рейтинг:</b> {round(taxi.rating, 2)}\n\n"
-                                #f"💵 <b>Ваш баланс:</b> {taxi.balance}\n\n"
+                                f"💵 <b>Ваш баланс:</b> {taxi.balance}\n\n"
                                 f"🚖 <b>Марка автомобиля:</b> {taxi.car}\n\n"
                                 f"🎨 <b>Цвет автомобиля:</b> {taxi.color_car}\n\n"
                                 f"🎰 <b>Гос. Номер:</b> {taxi.registration_number}\n\n\n"
