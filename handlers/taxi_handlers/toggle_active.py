@@ -50,10 +50,9 @@ async def process_toggle_active_callback(callback_query: types.CallbackQuery):
 
 # Функции подтверждения и отклонения
 async def process_start_shift_confirmation(callback_query: types.CallbackQuery):
-    await bot.answer_callback_query(callback_query.id)
+    # await bot.answer_callback_query(callback_query.id)
     user_id = callback_query.from_user.id
     taxi = await get_taxi(user_id)
-
     commission = 30
 
     if taxi.balance <= 0 or taxi.balance < commission:

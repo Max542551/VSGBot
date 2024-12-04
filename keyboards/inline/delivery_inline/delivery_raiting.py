@@ -120,6 +120,23 @@ def delivery_rate_user_keyboard(user_id, order_id):
     keyboard.add(block_customer_button)
     return keyboard
 
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith("customer_rate"))
+async def rate_customer(callback_query: types.CallbackQuery):
+    _, _, user_id, rating = callback_query.data.split("_", 3)
+    user_id, rating = int(user_id), int(rating)
+
+    user = await get_user(user_id)
+    if user.rating is None:
+        user.rating = rating
+    else:
+        # Измените это на подходящую для вас логику вычисления среднего рейтинга
+        user.rating = (user.rating + rating) / 2
+    user.save()
+
+    await bot.answer_callback_query(callback_query.id)
+    await bot.edit_message_text(text="😊 Спасибо за оценку пассажира!", chat_id=callback_query.message.chat.id,
+                                message_id=callback_query.message.message_id)
+
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('deliveryrate'))
 async def rate_user(callback_query: types.CallbackQuery):
     _, order_id, rating = callback_query.data.split("_", 2)

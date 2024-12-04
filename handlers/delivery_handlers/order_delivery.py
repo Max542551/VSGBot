@@ -70,6 +70,8 @@ async def process_delivery_order_for_user(callback_query: types.CallbackQuery):
     package_price = f"💰 <b>Сколько стоит посылка:</b> {order.package_price}\n\n" if order.package_price else ""
     message_text = f"❗️<b>Доставка</b>\n\n\n" \
                    f"👨 <b>Имя водителя:</b> {taxi.name if taxi else 'в поиске'}\n\n" \
+                   f"🚖 <b>Марка автомобиля:</b> {taxi.car if taxi else 'в поиске'}\n\n" \
+                   f"🎨 <b>Цвет автомобиля:</b> {taxi.color_car if taxi else 'в поиске'}\n\n" \
                    f"📈 <b>Рейтинг водителя:</b> {taxi.rating if taxi else 'в поиске'}\n\n" \
                    f"📱 <b>Телефон водителя:</b> {taxi.phone if taxi else 'в поиске'}\n\n\n" \
                    f"🅰️ <b>Адрес отправления:</b> {order.first_address}\n\n" \
