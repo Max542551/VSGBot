@@ -5,9 +5,10 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from config_data.config import group_id
-from database.database import Order, User, Taxi
+from database.database import Delivery, Order, User, Taxi
 from database.get_to_db import get_taxi, get_user, get_order_by_id
 from loader import bot, dp
+from states.delivery_states import DeliveryStatus
 from states.order_states import OrderStatus
 from states.taxi_states import BanDriverStates
 
@@ -53,10 +54,13 @@ async def rate_order(callback_query: types.CallbackQuery):
 
     taxi = await get_taxi(order.taxi_id)
     orders = Order.select().where(Order.taxi_id == taxi.user_id, Order.status != OrderStatus.CANCELED)
+    deliveries = Delivery.select().where(Delivery.taxi_id == taxi.user_id, Delivery.status != DeliveryStatus.CANCELED)
     rated_orders = [order for order in orders if order.rating is not None]
-    if rated_orders:
-        total_rating = sum([order.rating for order in rated_orders])
-        taxi.rating = round(total_rating / len(rated_orders), 2)
+    rated_deliveries = [delivery for delivery in deliveries if delivery.rating is not None]
+    if rated_orders or rated_deliveries:
+        raiting_list = rated_orders + rated_deliveries 
+        total_rating = sum([order.rating for order in raiting_list])
+        taxi.rating = round(total_rating / len(raiting_list), 2)
     else:
         taxi.rating = rating
     taxi.save()
