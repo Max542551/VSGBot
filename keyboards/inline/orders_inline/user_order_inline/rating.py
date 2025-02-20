@@ -68,8 +68,8 @@ async def rate_order(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await bot.edit_message_text(text="😊 Спасибо за оценку!", chat_id=callback_query.message.chat.id,
                                 message_id=callback_query.message.message_id)
-    await bot.send_message(taxi.user_id, f"📄 Заказ №<b>{order_id}</b> был оценен.\n\n"
-                                         f"📈 Ваш рейтинг обновлен!", parse_mode='html')
+    # await bot.send_message(taxi.user_id, f"📄 Заказ №<b>{order_id}</b> был оценен.\n\n"
+    #                                      f"📈 Ваш рейтинг обновлен!", parse_mode='html')
 
 
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('userrate'))
