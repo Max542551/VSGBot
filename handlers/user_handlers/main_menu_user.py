@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup
-from database.get_to_db import get_active_delivery_by_user_id, get_delivery_orders_user, get_user, has_delivery_orders, has_orders, get_taxi, get_active_orders_by_user_id, get_free_taxis_count, \
+from database.get_to_db import get_active_delivery_by_user_id, get_delivery_orders_user, get_shift_taxis_count, get_user, has_delivery_orders, has_orders, get_taxi, get_active_orders_by_user_id, get_free_taxis_count, \
  get_deferred_orders_user
 from aiogram import types
 from keyboards.inline.delivery_inline.cancel_buttons import delivery_determine_cancel_button
@@ -11,6 +11,7 @@ async def main_menu(message: types.Message):
     user_id = message.chat.id
     user = await get_user(user_id)
     free_taxis_count = get_free_taxis_count()
+    shift_taxis_count = get_shift_taxis_count()
 
     if has_orders(user_id):
         # Если есть заказы, выводим информацию о заказе
@@ -68,7 +69,8 @@ async def main_menu(message: types.Message):
         await message.answer(f"👋 Привет, {user.name}!\n\n"
                              f"Пусть сегодня у вас все получится ❤️\n\n"
                              f"📈 <b>Ваш рейтинг:</b> {rating}\n\n"
-                             f"Сейчас свободных машин: {free_taxis_count}", parse_mode='html',
+                             f"Сейчас свободных машин: {free_taxis_count}\n\n"
+                             f"Сейчас машин на линии: {shift_taxis_count}", parse_mode='html',
                              reply_markup=markup_main())
         
         deferred_orders_buttons = get_deferred_orders_user(user_id)
