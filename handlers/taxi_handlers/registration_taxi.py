@@ -108,7 +108,7 @@ async def process_child_seat_step(callback_query: types.CallbackQuery, state: FS
         add_taxi(user_id, data['name'], data['phone'], data['car'], data['color_car'], data['registration_number'],
                  data['child_seat'])
     await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id)
-    await bot.send_message(callback_query.from_user.id, '✅ К штурвалу, капитан!',
+    await bot.send_message(callback_query.from_user.id, '✅ Поздравляю, Ваша регистрация завершена, теперь Вы можете начинать смену и выполнять заказы!',
                            reply_markup=get_main_menu_keyboard())
     await main_menu_taxi.main_menu_taxi(callback_query.message)
     await state.finish()

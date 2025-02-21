@@ -13,7 +13,7 @@ def markup_taxi(taxi):
     item4 = InlineKeyboardButton('👥 Поддержка', callback_data='support')
     item6 = InlineKeyboardButton('👁️ Наблюдать' if not taxi_watching else '👁️ Прекратить наблюдение',
                                  callback_data='towatch')
-    item8 = InlineKeyboardButton('Беру доставку' if not delivery_active else 'Не беру доставку', callback_data="deliveryon")
+    item8 = InlineKeyboardButton('🟢Беру доставку' if not delivery_active else '🔴Не беру доставку', callback_data="deliveryon")
     item7 = InlineKeyboardButton("🔄 Сбросить сумму заказов за день", callback_data="reset_daily_order_sum")
     item5 = InlineKeyboardButton('🔴 Завершить смену' if taxi_shift else '🟢 Начать смену', callback_data='change_shift')
 

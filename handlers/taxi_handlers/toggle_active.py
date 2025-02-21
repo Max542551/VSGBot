@@ -40,7 +40,8 @@ async def process_toggle_active_callback(callback_query: types.CallbackQuery):
                 InlineKeyboardButton("✅ Подтвердить", callback_data='start_shift'),
                 InlineKeyboardButton("❌ Отклонить", callback_data='secline_start_shift')
             )
-            await bot.edit_message_text(text="❗️Начинаем работать? Будет списана комиссия 30 руб.",
+            await bot.edit_message_text(text="❗️Начинаем работать? \n\n" 
+                                        " Будет списана комиссия 30 руб.",
                                         chat_id=callback_query.from_user.id,
                                         message_id=callback_query.message.message_id,
                                         reply_markup=markup)
@@ -84,7 +85,7 @@ async def process_end_shift_confirmation(callback_query: types.CallbackQuery):
         taxi.save()
         await bot.edit_message_text(text="👍 Смена завершена", chat_id=callback_query.from_user.id,
                                     message_id=callback_query.message.message_id)
-        await bot.send_message(group_id, f'❗<b>{taxi.name} {taxi.car} {taxi.registration_number}</b> заверишл смену. Баланс - <b>{taxi.balance}</b> руб', parse_mode='html')
+        await bot.send_message(group_id, f'❗<b>{taxi.name} {taxi.car} {taxi.registration_number}</b> завершил смену. Баланс - <b>{taxi.balance}</b> руб', parse_mode='html')
 
         await main_menu_taxi.main_menu_taxi(callback_query.message)
 

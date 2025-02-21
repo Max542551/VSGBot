@@ -50,9 +50,9 @@ async def main_menu(message: types.Message):
     #                     f"📱 <b>Телефон водителя:</b> {taxi.phone if taxi else 'в поиске'}\n\n\n" \
     #                     f"🅰️ <b>Адрес отправления:</b> {order.first_address}\n\n" \
     #                     f"🅱️ <b>Адрес прибытия:</b> {order.second_address}\n\n\n" \
-    #                     f"💰 <b>Стоимость:</b> {cost}\n\n" \
+    #                     f"💰 <b>Стоимость услуги доставки:</b> {cost}\n\n" \
     #                     f"💵 <b>Оплата:</b> {order.payment_method}\n\n" \
-    #                     f"📦 <b>Оплата посылки:</b> {order.package_payment}\n\n"  \
+    #                     f"📦 <b>Оплата посылки (по чеку):</b> {order.package_payment}\n\n"  \
     #                     f"{package_price}" \
     #                     f"💍 <b>Содержимое посылки</b> {order.package_content}\n\n" \
     #                     f"💭 Комментарий к заказу: <b>{order.comment}</b>"
@@ -67,6 +67,8 @@ async def main_menu(message: types.Message):
         rating = round(user.rating, 2) if user.rating else "У вас еще нет оценок"
         await message.answer(f"👋 Привет, {user.name}!\n\n"
                              f"Пусть сегодня у вас все получится ❤️\n\n"
+                             f"📱 <b>Ваш номер тел.:</b> {user.phone}\n"
+                             f"💭 Если номер не Ваш, сообщите в поддержку:\n\n\n"
                              f"📈 <b>Ваш рейтинг:</b> {rating}\n\n"
                              f"Сейчас свободных машин: {free_taxis_count}", parse_mode='html',
                              reply_markup=markup_main())
