@@ -4,7 +4,7 @@ from aiogram.types import InlineKeyboardMarkup
 from database.add_to_db import create_sent_item, delivery_create_sent_item
 from database.database import Delivery
 from database.get_to_db import get_delivery_by_taxi_id, get_delivery_orders_buttons, get_user, get_taxi, get_order_by_taxi_id, get_free_taxis_count, \
-    get_deferred_orders_buttons
+    get_deferred_orders_buttons, get_shift_taxis_count
 from database.update_to_db import update_sent_item
 from keyboards.inline.delivery_inline.delivery_status_buttons.get_package_delivery import get_delivery_package_button
 from keyboards.inline.delivery_inline.delivery_status_buttons.leaving_with_package import get_leaving_with_package_button
@@ -20,6 +20,7 @@ async def main_menu_taxi(message: types.Message):
     taxi_id = message.chat.id
     taxi = await get_taxi(taxi_id)
     free_taxis_count = get_free_taxis_count()
+    shift_taxis_count = get_shift_taxis_count()
 
     # Поиск заказа для данного таксиста
     order = get_order_by_taxi_id(taxi_id)
@@ -100,6 +101,7 @@ async def main_menu_taxi(message: types.Message):
                                 f"🚖 <b>Марка автомобиля:</b> {taxi.car}\n\n"
                                 f"🎨 <b>Цвет автомобиля:</b> {taxi.color_car}\n\n"
                                 f"🎰 <b>Гос. Номер:</b> {taxi.registration_number}\n\n\n"
+                                f"Сейчас машин на линии: {shift_taxis_count}\n"
                                 f"Сейчас свободных машин: {free_taxis_count}\n\n\n"
                                 f"🎉 Вы выполнили <b>{taxi.daily_order_count}</b> заказов на общую сумму: <b>{taxi.daily_earnings}</b> руб\n"
                                 f"💵 <b>Сумма заказов за текущий день:</b> {taxi.daily_order_sum} руб",
