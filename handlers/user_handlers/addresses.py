@@ -7,6 +7,7 @@ from database.update_to_db import update_user_address
 from loader import dp, bot
 from states.user_states import UserAddressChange
 
+from config_data.config import block_words
 
 @dp.callback_query_handler(lambda c: c.data == 'my_addresses')
 async def my_addresses(callback_query: types.CallbackQuery):
@@ -35,6 +36,9 @@ async def prompt_home_address(callback_query: types.CallbackQuery):
 
 @dp.message_handler(state=UserAddressChange.waiting_for_home_address)
 async def update_home_address(message: types.Message, state: FSMContext):
+    if message.text in block_words:
+        await message.answer("Введите пожалуйста конкретный адрес")
+        return
     home_address = message.text
     user_id = message.from_user.id
     update_user_address(user_id, home_address=home_address)
@@ -50,6 +54,9 @@ async def prompt_work_address(callback_query: types.CallbackQuery):
 
 @dp.message_handler(state=UserAddressChange.waiting_for_work_address)
 async def update_work_address(message: types.Message, state: FSMContext):
+    if message.text in block_words:
+        await message.answer("Введите пожалуйста конкретный адрес")
+        return
     work_address = message.text
     user_id = message.from_user.id
     update_user_address(user_id, work_address=work_address)  # Обновляем рабочий адрес пользователя в базе данных

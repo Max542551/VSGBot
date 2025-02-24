@@ -2,7 +2,7 @@ import json
 from aiogram.dispatcher import FSMContext
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config_data.config import group_id
+from config_data.config import group_id, block_words
 
 from database.database import Delivery, Order, Taxi, User
 from database.get_to_db import get_delivery_by_id, get_taxi, get_user
@@ -70,6 +70,10 @@ async def process_ban_delivery_callback(callback_query: types.CallbackQuery, sta
 
 @dp.message_handler(state=BanDeliveryStates.waiting_for_reason, content_types=types.ContentTypes.TEXT)
 async def process_ban_driver_reason(message: types.Message, state: FSMContext):
+    if message.text in block_words:
+        await message.answer('Введите корректную причину')
+        return
+    
     reason = message.text
     user_data = await state.get_data()
     order_id = user_data['order_id']
@@ -195,6 +199,10 @@ async def process_cancel_ban(callback_query: types.CallbackQuery, state: FSMCont
 
 @dp.message_handler(state=BanCustomerStates.waiting_for_reason, content_types=types.ContentTypes.TEXT)
 async def process_ban_reason(message: types.Message, state: FSMContext):
+    if message.text in block_words:
+        await message.answer('Введите корректную причину')
+        return
+    
     reason = message.text
     user_data = await state.get_data()
     order_id = user_data['order_id']
