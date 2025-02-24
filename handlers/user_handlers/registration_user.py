@@ -7,10 +7,15 @@ from handlers.user_handlers import main_menu_user
 from keyboards.reply import reply_menu_user
 from loader import dp
 from states.user_states import UserRegistrationState
+from config_data.config import block_words
 
 
 @dp.message_handler(state=UserRegistrationState.name)
 async def process_name_step(message: types.Message, state: FSMContext):
+    if message.text in block_words:
+        await message.answer('Введите корректное имя')
+        return 
+    
     async with state.proxy() as data:
         data['name'] = message.text
     await UserRegistrationState.next()

@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from peewee import DoesNotExist
 
-from config_data.config import group_id
+from config_data.config import group_id, block_words
 from database.database import Order
 from database.get_to_db import get_order_by_id, get_taxi, get_user
 from keyboards.inline.orders_inline.taxi_order_inline.end_trip import get_end_trip_button
@@ -114,6 +114,9 @@ async def process_cancel_ban(callback_query: types.CallbackQuery, state: FSMCont
 
 @dp.message_handler(state=BanPassengerStates.waiting_for_reason, content_types=types.ContentTypes.TEXT)
 async def process_ban_reason(message: types.Message, state: FSMContext):
+    if message.text in block_words:
+        await message.answer('Введите корректную причину')
+        return
     reason = message.text
     user_data = await state.get_data()
     order_id = user_data['order_id']
