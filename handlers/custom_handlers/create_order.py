@@ -17,6 +17,8 @@ from loader import dp, bot
 from states.order_states import TaxiOrderState
 from utils import message_for_taxi
 
+from config_data.config import min_price
+
 
 @dp.callback_query_handler(lambda call: call.data == 'userdef_order', state="*")
 async def deferred_order_request(call: types.CallbackQuery, state: FSMContext):
@@ -242,7 +244,9 @@ async def handle_specify_amount(message: types.Message, state: FSMContext):
     if message.text.startswith('🏠 Главное меню'):
         await start(message, state)
         return
-
+    if int(message.text) <= min_price:
+        await bot.send_message(message.chat.id, f"Минимальная цена заказа - {min_price} рублей")
+        return
     state_data = await state.get_data()
     try:
         amount = int(message.text)
