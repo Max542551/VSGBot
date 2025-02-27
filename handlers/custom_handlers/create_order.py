@@ -244,9 +244,7 @@ async def handle_specify_amount(message: types.Message, state: FSMContext):
     if message.text.startswith('🏠 Главное меню'):
         await start(message, state)
         return
-    if int(message.text) <= min_price:
-        await bot.send_message(message.chat.id, f"Минимальная стоимость поездки по городу {min_price} руб. Пожалуйста введите сумму равную или больше минимальной")
-        return
+
     state_data = await state.get_data()
     try:
         amount = int(message.text)
