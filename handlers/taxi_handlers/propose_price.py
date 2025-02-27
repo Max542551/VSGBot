@@ -7,6 +7,8 @@ from keyboards.inline.orders_inline.user_order_inline.accept_or_decline_price im
 from loader import dp, bot
 from states.order_states import ProposePriceState
 
+from config_data.config import min_price
+
 
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('order_propose_price'))
 async def process_propose_price_callback(callback_query: types.CallbackQuery):
@@ -38,6 +40,9 @@ async def process_propose_price(message: types.Message, state: FSMContext):
 
     try:
         price = int(message.text)
+        if price <= min_price:
+            await bot.send_message(message.chat.id, f"Минимальная стоимость поездки по городу {min_price} руб. Пожалуйста введите сумму равную или больше минимальной")
+            return
 
         taxi_id = message.from_user.id
         async with state.proxy() as data:
