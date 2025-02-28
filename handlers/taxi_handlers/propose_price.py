@@ -40,7 +40,7 @@ async def process_propose_price(message: types.Message, state: FSMContext):
 
     try:
         price = int(message.text)
-        if price <= min_price:
+        if price < min_price:
             await bot.send_message(message.chat.id, f"Минимальная стоимость поездки по городу {min_price} руб. Пожалуйста введите сумму равную или больше минимальной")
             return
 

@@ -4,12 +4,10 @@ from geopy import Photon
 from geopy.adapters import AioHTTPAdapter
 from peewee import SqliteDatabase
 
-group_id = '-1002131610863'
-# group_id = "-1002172947099"
+# group_id = '-1002131610863'
+group_id = "-1002172947099"
 
 block_words = ["/start", "🏠 Главное меню"]
-
-min_price = 130
 
 test_value = ""
 
@@ -24,6 +22,8 @@ if not find_dotenv():
     exit('Переменные окружения не загружены т.к отсутствует файл .env')
 else:
     load_dotenv()
+
+min_price = int(os.getenv('MIN_PRICE'))
 
 # Инициализируем бота
 BOT_TOKEN = os.getenv('BOT_TOKEN')
