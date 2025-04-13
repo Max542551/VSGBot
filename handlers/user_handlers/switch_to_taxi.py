@@ -27,8 +27,8 @@ async def process_callback_switch_to_taxi(callback_query: types.CallbackQuery):
     else:
         await bot.edit_message_text(
              "🚖 Мы рады, что вы решили стать частью нашей команды! 🎉\n\n"
-            "К сожалению на данный момент регистрация новых водителей временно приостановлена.\n"
-            "О возобновлении регистрации уведомим на нашем оф. канале\n\n"
-            "https://t.me/podderzhka_VSG_Melenki:", chat_id=callback_query.from_user.id,
+            "💳 Пожалуйста внесите единовременный регистрационный взнос 300 руб.\n"
+            "Номер карты: <b>2200 7009 8038 6675 (Тинькофф банк Алексей Витальевич У.)</b>\n\n"
+            "📲 Отправьте скриншот перевода, на котором видны дата и время, как фотографию после этого сообщения:", chat_id=callback_query.from_user.id,
             message_id=callback_query.message.message_id, parse_mode='html')
         await TaxiRegistrationState.waiting_for_payment_screenshot.set()
