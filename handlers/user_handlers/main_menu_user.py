@@ -68,6 +68,8 @@ async def main_menu(message: types.Message):
         rating = round(user.rating, 2) if user.rating else "У вас еще нет оценок"
         await message.answer(f"👋 Привет, {user.name}!\n\n"
                              f"Пусть сегодня у вас все получится ❤️\n\n"
+                             f"📱 <b>Ваш номер тел.:</b> {user.phone}\n"
+                             f"💭 Если номер не Ваш, сообщите в поддержку:\n\n\n"
                              f"📈 <b>Ваш рейтинг:</b> {rating}\n\n"
                              f"Сейчас свободных машин: {free_taxis_count}\n\n"
                              f"Сейчас машин на линии: {shift_taxis_count}", parse_mode='html',
