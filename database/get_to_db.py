@@ -297,6 +297,11 @@ def get_taxi_by_phone(phone_number):
     except Taxi.DoesNotExist:
         return None
 
+def get_user_by_phone(phone_number):
+    try:
+        return User.get(User.phone == phone_number)
+    except User.DoesNotExist:
+        return None
 
 def get_passenger_by_phone(phone: str):
     try:

@@ -22,3 +22,16 @@ class TaxiDriverInfoState(StatesGroup):
 class UserInfoState(StatesGroup):
     CHANGE_NAME = State()
     REQUEST_PHONE = State()
+
+class ChangePhone(StatesGroup):
+    GET_PHONE = State()
+    CHANGE_TAXI_PHONE = State()
+    CHANGE_USER_PHONE = State()
+
+class ChangeRating(StatesGroup):
+    GET_USER_ID = State()
+    CHANGE_TAXI_RATING = State()
+    CHANGE_USER_RATING = State()
+
+class ChangeBusy(StatesGroup):
+    GET_USER_ID = State()
