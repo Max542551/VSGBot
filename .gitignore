@@ -1,4 +1,8 @@
 .env
 venv
 __pycache__
+<<<<<<< HEAD
 config_data
+=======
+config_data
+>>>>>>> 0a992da330e70414035ac1aa081145bbd9517880

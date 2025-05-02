@@ -208,6 +208,10 @@ def get_free_taxis_count():
         (Taxi.is_busy == False) & (Taxi.is_active == True) & (Taxi.admin_deactivated == False) & (
                 Taxi.shift == True)).count()
 
+def get_shift_taxis_count():
+    return Taxi.select().where(
+        (Taxi.is_active == True) & (Taxi.admin_deactivated == False) & (Taxi.shift == True)).count()
+
 def get_free_deliveries_count():
     return Taxi.select().where(
         (Taxi.is_busy == False) & (Taxi.delivery_active == True) & (Taxi.admin_deactivated == False)).count()
