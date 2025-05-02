@@ -15,10 +15,10 @@ async def toggle_watch_mode(call: types.CallbackQuery, state: FSMContext):
         await bot.send_message(call.message.chat.id, "⚠️ Таксист не найден.")
         return
 
-    if taxi.shift:
-        await bot.answer_callback_query(call.id, show_alert=True,
-                                        text="⚠️ Для начала наблюдения, завершите смену!\n\n")
-        return
+    # if taxi.shift:
+    #     await bot.answer_callback_query(call.id, show_alert=True,
+    #                                     text="⚠️ Для начала наблюдения, завершите смену!\n\n")
+    #     return
 
     # Переключаем режим наблюдения
     taxi.is_watching = not taxi.is_watching
