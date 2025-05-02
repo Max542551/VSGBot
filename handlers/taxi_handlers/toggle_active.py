@@ -20,10 +20,10 @@ async def process_toggle_active_callback(callback_query: types.CallbackQuery):
                                             text="🚫 Ваш аккаунт заблокирован администратором!")
             return
 
-        if taxi.is_watching:
-            await bot.answer_callback_query(callback_query.id, show_alert=True,
-                                            text="⚠️ Для начала смены, выключите режим наблюдения!\n\n")
-            return
+        # if taxi.is_watching:
+        #     await bot.answer_callback_query(callback_query.id, show_alert=True,
+        #                                     text="⚠️ Для начала смены, выключите режим наблюдения!\n\n")
+        #     return
 
         if taxi.shift:
             markup = InlineKeyboardMarkup(row_width=2)
